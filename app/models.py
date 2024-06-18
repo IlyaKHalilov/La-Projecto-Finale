@@ -12,9 +12,12 @@ class MyPerson(models.Model):
             (3, 'Женщина'),
         )
     )
-    photo = models.FileField(upload_to='main_photos/')
+    photo = models.FileField(upload_to='media/main_photos')
     majority = models.CharField(max_length=200)
     short_description = models.TextField()
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
 
     class Meta:
         verbose_name = 'Краткая инфа о человеке'
@@ -26,6 +29,9 @@ class MyPersonDetail(models.Model):
     full_description = models.TextField()
     quote = models.TextField()
     financial_state = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f'{self.person.first_name} {self.person.last_name}'
 
     class Meta:
         verbose_name = 'Подробная инфа о человеке'
