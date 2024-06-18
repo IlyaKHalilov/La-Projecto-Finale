@@ -16,8 +16,17 @@ class MyPerson(models.Model):
     majority = models.CharField(max_length=200)
     short_description = models.TextField()
 
+    class Meta:
+        verbose_name = 'Краткая инфа о человеке'
+        verbose_name_plural = 'Краткая инфа о людях'
+
 
 class MyPersonDetail(models.Model):
     person = models.ForeignKey(MyPerson, on_delete=models.PROTECT)
     full_description = models.TextField()
     quote = models.TextField()
+    financial_state = models.PositiveIntegerField()
+
+    class Meta:
+        verbose_name = 'Подробная инфа о человеке'
+        verbose_name_plural = 'Подробная инфа о людях'
