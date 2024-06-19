@@ -1,38 +1,47 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, email, username, password=None):
         if not email:
             raise ValueError('Email обязателен')
         email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
+
+        user = self.model(
+            email=email,
+            username=username,
+        )
+
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_admin', True)
+    def create_superuser(self, email, username, password=None):
+        user = self.create_user(
+            email=email,
+            username=username,
+        )
 
-        return self.create_user(email, password, **extra_fields)
+        user.is_admin = True
+        user.set_password(password)
+        user.save(using=self._db)
+
+        return user
 
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+class CustomUser(AbstractBaseUser):
     email = models.EmailField(unique=True)
-    username = models.CharField(max_length=123)
     status = models.PositiveSmallIntegerField(
         choices=(
             (1, 'Обычный пользователь'),
-            (2, 'Менеджер'),
-            (3, 'Редактор'),
+            (2, 'Редактор'),
+            (3, 'Менеджер'),
         ),
         default=1
     )
     date_joined = models.DateTimeField(auto_now_add=True)
     is_admin = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
 
     objects = CustomUserManager()
 
@@ -51,6 +60,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         """Does the user have permissions to view the app app_label?"""
         # Simplest possible answer: Yes, always
         return True
+
+    @property
+    def is_staff(self):
+        return self.is_admin
 
     class Meta:
         verbose_name = 'пользователь'
