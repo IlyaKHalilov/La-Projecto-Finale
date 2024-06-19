@@ -44,13 +44,13 @@
     <div class="container">
       <div class="row">
           <center>
-        <p>
-          Нет аккаунта? <a href="{% url 'register' %}">Зарегистрируйтесь!</a>
-        </p>
-        <form method="post" action=".">
+        <form id="my-form" method="post" action=".">
+            <p class="custom-form-p">
+              Нет аккаунта? <a href="{% url 'register' %}">Зарегистрируйтесь!</a>
+            </p>
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Вход</button>
+            <button class="custom-form-button" type="submit">Вход</button>
         </form>
           </center>
       </div>

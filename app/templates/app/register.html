@@ -42,12 +42,13 @@
 
   <div class="author-page" id="register">
     <div class="container">
-      <div>
+      <div class="container" >
         <center>
-          <form method="post" action=".">
+          <form id="my-form" method="post" action=".">
               {% csrf_token %}
               {{ form.as_p }}
-              <button type="submit">Зарегистрироваться</button>
+            <br>
+              <button class="custom-form-button" type="submit">Зарегистрироваться</button>
           </form>
         </center>
       </div>

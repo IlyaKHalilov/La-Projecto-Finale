@@ -1,0 +1,37 @@
+.custom-form {
+  background-color: #282b2f;
+  border: 2px solid #404245;
+  color: white;
+  margin-bottom: 10px;
+  font-weight: 500;
+  border-radius: 23px;
+  height: 46px;
+  width: 100%;
+  padding: 0px 15px;
+  font-size: 20px;
+  display: block;
+}
+
+#my-form {
+  background-color: #37393c;
+  border-radius: 20px;
+  padding: 60px 30px;
+  margin-bottom: 120px;
+  width: 50%;
+}
+
+.custom-form-button {
+  background-color: #7453fc; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  border-radius: 23px;
+}
+
+.custom-form-p {
+  margin-bottom: 10px;
+}

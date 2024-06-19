@@ -74,7 +74,7 @@ def render_register(request):
             return redirect('index')
 
     else:
-        form = UserRegisterForm()
+        form = UserRegisterForm
 
     return render(request, 'app/register.html', {'form': form})
 
