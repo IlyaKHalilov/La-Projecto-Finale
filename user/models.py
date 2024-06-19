@@ -51,6 +51,11 @@ class CustomUser(AbstractBaseUser):
     def __str__(self):
         return self.email
 
+    def has_perms(self, perm, obj=None):
+        """Does the user have a specific permission?"""
+        # Simplest possible answer: Yes, always
+        return self.status
+
     def has_perm(self, perm, obj=None):
         """Does the user have a specific permission?"""
         # Simplest possible answer: Yes, always

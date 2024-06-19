@@ -36,3 +36,17 @@ class MyPersonDetail(models.Model):
     class Meta:
         verbose_name = 'Подробная инфа о человеке'
         verbose_name_plural = 'Подробная инфа о людях'
+
+
+class Application(models.Model):
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    why_you = models.TextField()
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
+    class Meta:
+        verbose_name = 'Заявка на редактора'
+        verbose_name_plural = 'Заявки на редактора'

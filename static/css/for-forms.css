@@ -5,7 +5,7 @@
   margin-bottom: 10px;
   font-weight: 500;
   border-radius: 23px;
-  height: 46px;
+  min-height: 46px;
   width: 100%;
   padding: 0px 15px;
   font-size: 20px;
@@ -35,3 +35,22 @@
 .custom-form-p {
   margin-bottom: 10px;
 }
+
+.custom-form textarea {
+    background-color: white;
+}
+
+.application {
+  background-color: #282b2f;
+  border: 2px solid #404245;
+  color: white;
+  margin: 5px;
+  font-weight: 500;
+  border-radius: 23px;
+  min-height: 46px;
+  width: 30%;
+  padding: 25px;
+  font-size: 20px;
+  display: block;
+}
+

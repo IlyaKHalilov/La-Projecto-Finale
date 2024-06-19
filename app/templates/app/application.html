@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+<html lang="en">
+
+{% block head %}
+<head>
+  <title>Заявка на редактора</title>
+</head>
+{% endblock %}
+
+<body>
+{% block content %}
+  <!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
+
+  <div class="page-heading normal-space">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h2>Заявка на редактора</h2>
+          <span><a href="{% url 'index' %}">Home > </a>Application</span>
+          <div class="buttons">
+            <div class="main-button">
+              <a href="#application">Перейти</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="author-page" id="application">
+    <div class="container">
+      <div class="container" >
+        <center>
+          <form id="my-form" method="post" action=".">
+              {% csrf_token %}
+              {{ form.as_p }}
+            <br>
+              <button class="custom-form-button" type="submit">Подать заявку</button>
+          </form>
+        </center>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+  </body>
+</html>

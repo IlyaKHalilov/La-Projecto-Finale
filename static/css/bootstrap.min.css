@@ -3068,6 +3068,7 @@ textarea.form-control-lg {
 }
 
 .btn-success {
+  width: 48%;
   color: #fff;
   background-color: #198754;
   border-color: #198754;
@@ -3158,6 +3159,7 @@ textarea.form-control-lg {
 }
 
 .btn-danger {
+width: 48%;
   color: #fff;
   background-color: #dc3545;
   border-color: #dc3545;

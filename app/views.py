@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import MyPerson, MyPersonDetail
-from django.contrib.auth.decorators import user_passes_test
-from .forms import UserRegisterForm, UserLoginForm
+from .models import MyPerson, MyPersonDetail, Application
+from django.contrib.auth.decorators import user_passes_test, permission_required
+from .forms import UserRegisterForm, UserLoginForm, UserApplicationForm
 from django.contrib.auth import authenticate, login, logout
+from user.models import CustomUser
 
 
 def render_main(request):
@@ -30,11 +31,48 @@ def render_detail(request, pk):
     return render(request, 'app/details.html', {'d_person': detailed_person})
 
 
-def render_explore(request):
-    return render(request, 'app/explore.html')
+@user_passes_test(lambda u: u.is_authenticated, login_url='/login/')
+def render_application(request):
+    if request.method == 'POST':
+        form = UserApplicationForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+
+    else:
+        form = UserApplicationForm
+
+    return render(request, 'app/application.html', {'form': form})
 
 
+def render_applications(request):
+    if request.method == 'POST':
+        appl = Application.objects.get(id=request.POST['id'])
+
+        if request.POST['status'] == 'Принять':
+            users = CustomUser.objects.all()
+
+            if appl.email in [str(user) for user in users]:
+                user_redactor = users.get(email=appl.email)
+                user_redactor.status = 2
+
+                user_redactor.save()
+                appl.delete()
+
+        elif request.POST['status'] == 'Отклонить':
+            appl.delete()
+
+    applications = Application.objects.all()
+
+    return render(request, 'app/applications.html', {'applications': applications})
+
+
+@user_passes_test(lambda u: u.is_authenticated, login_url='/login/')
+@user_passes_test(lambda u: u.status >= 2 or u.is_admin, login_url='/access_denied/')
 def render_create(request):
+    for i in range(10):
+        print(request.user.status >= 2)
     return render(request, 'app/create.html')
 
 
@@ -66,9 +104,8 @@ def render_logout(request):
 def render_register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
-        print(request.POST)
+
         if form.is_valid():
-            print('lmlkmlkmlk')
             user = form.save()
             login(request, user)
             return redirect('index')
@@ -78,3 +115,6 @@ def render_register(request):
 
     return render(request, 'app/register.html', {'form': form})
 
+
+def render_access_denied(request):
+    return render(request, 'app/access_denied.html')

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+<html lang="en">
+
+{% block head %}
+    <head>
+      <title>Отказано в доступе</title>
+    </head>
+{% endblock %}
+
+<body>
+{% block content %}
+    <!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
+
+  <div class="page-heading normal-space">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h2>У вас недостаточно прав</h2>
+          <span><a href="{% url 'index' %}">Home</a></span>
+          <div class="buttons">
+            <div class="main-button">
+              <a href="{% url 'index' %}">На главную</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="author-page">
+      <center>
+        <p class="access-denied-p">
+           Хотите стать частью нашей команды?
+        </p><br>
+        <p>
+          Тогда вы можете подать заявку к нам! <br>
+          И возможно даже стать частью нашей команды
+        </p>
+        <br>
+        <br>
+        <div class="buttons">
+            <div class="main-button">
+              <a href="{% url 'application' %}">Подать</a>
+            </div>
+        </div>
+      </center>
+  </div>
+
+{% endblock %}
+</body>
+</html>
