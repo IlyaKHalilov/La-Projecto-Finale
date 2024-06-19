@@ -38,7 +38,11 @@
                         <li><a href="{% url 'explore' %}">Explore</a></li>
                         <li><a href="#">Item Details</a></li>
                         <li><a href="{% url 'create' %}">Create</a></li>
-                        <li><a href="{% url 'author' %}">Login</a></li>
+                        {% if request.user.is_authenticated %}
+                            <li><a href="{% url 'logout' %}">Log out</a></li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Log in</a></li>
+                        {% endif %}
                     </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>

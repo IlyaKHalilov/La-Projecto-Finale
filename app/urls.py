@@ -7,5 +7,7 @@ urlpatterns = [
     path('detail/<int:pk>/', render_detail, name='detail'),
     path('explore/', render_explore, name='explore'),
     path('create/', render_create, name='create'),
-    path('author/', render_author, name='author'),
+    path('login/', render_login, name='login'),
+    path('logout/', render_logout, name='logout'),
+    path('register/', render_register, name='register'),
 ]
