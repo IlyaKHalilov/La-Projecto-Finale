@@ -11,6 +11,7 @@ def render_main(request):
     return render(request, 'app/index.html', {'persons': persons})
 
 
+@user_passes_test(lambda u: u.is_authenticated, login_url='/login/')
 def render_detail(request, pk):
     detailed_person = MyPersonDetail.objects.get(id=pk)
     if len(str(detailed_person.financial_state)) >= 10:
@@ -46,6 +47,8 @@ def render_application(request):
     return render(request, 'app/application.html', {'form': form})
 
 
+@user_passes_test(lambda u: u.is_authenticated, login_url='/login/')
+@user_passes_test(lambda u: u.status == 3 or u.is_admin, login_url='/access_denied/')
 def render_applications(request):
     if request.method == 'POST':
         appl = Application.objects.get(id=request.POST['id'])
@@ -95,6 +98,7 @@ def render_login(request):
     return render(request, 'app/login.html', {'form': form})
 
 
+@user_passes_test(lambda u: u.is_authenticated, login_url='/login/')
 def render_logout(request):
 
     logout(request)
