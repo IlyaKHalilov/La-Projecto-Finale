@@ -45,6 +45,9 @@
       <div class="container" >
         <center>
           <form id="my-form" method="post" action=".">
+            <p class="custom-form-p">
+              Есть аккаунт? <a href="{% url 'register' %}">Войдите.</a>
+            </p>
               {% csrf_token %}
               {{ form.as_p }}
             <br>
