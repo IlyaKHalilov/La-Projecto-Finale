@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import MyPerson, MyPersonDetail, Application
 from django.contrib.auth.decorators import user_passes_test, permission_required
-from .forms import UserRegisterForm, UserLoginForm, UserApplicationForm
+from .forms import (UserRegisterForm, UserLoginForm, UserApplicationForm, AddMyPerson, AddMyPersonDetail,
+                    PersonUpdateForm, PersonDetailUpdateForm)
 from django.contrib.auth import authenticate, login, logout
 from user.models import CustomUser
+from django.http import HttpResponseNotFound
 
 
 def render_main(request):
@@ -13,7 +15,8 @@ def render_main(request):
 
 @user_passes_test(lambda u: u.is_authenticated, login_url='/login/')
 def render_detail(request, pk):
-    detailed_person = MyPersonDetail.objects.get(id=pk)
+    detailed_person = MyPersonDetail.objects.get(person=pk)
+
     if len(str(detailed_person.financial_state)) >= 10:
         new_financial_state = str(round(detailed_person.financial_state / 1000000000, 1)) + '$ млрд.'
 
@@ -74,9 +77,22 @@ def render_applications(request):
 @user_passes_test(lambda u: u.is_authenticated, login_url='/login/')
 @user_passes_test(lambda u: u.status >= 2 or u.is_admin, login_url='/access_denied/')
 def render_create(request):
-    for i in range(10):
-        print(request.user.status >= 2)
-    return render(request, 'app/create.html')
+    if request.method == 'POST':
+        form1 = AddMyPerson(request.POST, request.FILES)
+        form2 = AddMyPersonDetail(request.POST)
+
+        if form1.is_valid():
+            form1.save()
+            return redirect('create')
+
+        if form2.is_valid():
+            form2.save()
+            return redirect('create')
+
+    form1 = AddMyPerson()
+    form2 = AddMyPersonDetail()
+
+    return render(request, 'app/create.html', {'form1': form1, 'form2': form2})
 
 
 def render_login(request):
@@ -122,3 +138,50 @@ def render_register(request):
 
 def render_access_denied(request):
     return render(request, 'app/access_denied.html')
+
+
+@user_passes_test(lambda u: u.status >= 2 or u.is_admin, login_url='/access_denied/')
+def render_update(request, pk):
+    person = MyPerson.objects.get(id=pk)
+    person_detail = MyPersonDetail.objects.get(person=pk)
+
+    if request.method == 'POST':
+        person.first_name = request.POST['first_name']
+        person.last_name = request.POST['last_name']
+        person.age = request.POST['age']
+        person.gender = request.POST['gender']
+
+        if request.POST['photo']:
+            person.photo = request.POST['photo']
+
+        person.majority = request.POST['majority']
+        person.short_description = request.POST['short_description']
+
+        person_detail.full_description = request.POST['full_description']
+        person_detail.quote = request.POST['quote']
+        person_detail.financial_state = request.POST['financial_state']
+
+        person.save()
+        person_detail.save()
+
+        return redirect('index')
+
+    form1 = PersonUpdateForm(instance=person)
+    form2 = PersonDetailUpdateForm(instance=person_detail)
+
+    return render(request, 'app/update.html', {'form1': form1, 'form2': form2})
+
+
+def page_not_found(request, exception):
+    return render(request, 'app/404.html', status=404)
+
+
+@user_passes_test(lambda u: u.status >= 2 or u.is_admin, login_url='/access_denied/')
+def render_delete(request, pk):
+    person = MyPerson.objects.get(id=pk)
+    person_detail = MyPersonDetail.objects.get(person=pk)
+
+    person_detail.delete()
+    person.delete()
+
+    return redirect('index')

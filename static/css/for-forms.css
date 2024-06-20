@@ -12,6 +12,25 @@
   display: block;
 }
 
+input[type="file"] {
+    appearance: none;
+    background-color: #282b2f;
+    cursor: default;
+    align-items: baseline;
+    color: #282b2f;
+    text-overflow: ellipsis;
+    text-align: start !important;
+    padding: 10px;
+    border: initial;
+    white-space: pre;
+    overflow: hidden !important;
+}
+
+.custom-form-file {
+  background-color: 0;
+  border: 0;
+}
+
 #my-form {
   background-color: #37393c;
   border-radius: 20px;

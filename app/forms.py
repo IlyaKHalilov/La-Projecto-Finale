@@ -1,7 +1,7 @@
 from user.admin import UserCreationForm
 from django import forms
 from user.models import CustomUser
-from .models import Application
+from .models import Application, MyPersonDetail, MyPerson
 
 
 class UserRegisterForm(UserCreationForm):
@@ -42,6 +42,85 @@ class UserApplicationForm(forms.ModelForm):
             "first_name",
             "last_name",
             "why_you",
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update(
+                {'class': 'custom-form'}
+            )
+
+
+class AddMyPerson(forms.ModelForm):
+
+    class Meta:
+        model = MyPerson
+        fields = (
+            'first_name',
+            'last_name',
+            'age',
+            'gender',
+            'photo',
+            'majority',
+            'short_description',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update(
+                {'class': 'custom-form'}
+            )
+
+
+class AddMyPersonDetail(forms.ModelForm):
+
+    class Meta:
+        model = MyPersonDetail
+        fields = (
+            'person',
+            'full_description',
+            'quote',
+            'financial_state'
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update(
+                {'class': 'custom-form'}
+            )
+
+
+class PersonUpdateForm(forms.ModelForm):
+    class Meta:
+        model = MyPerson
+        fields = (
+            'first_name',
+            'last_name',
+            'age',
+            'gender',
+            'photo',
+            'majority',
+            'short_description',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update(
+                {'class': 'custom-form'}
+            )
+
+
+class PersonDetailUpdateForm(forms.ModelForm):
+    class Meta:
+        model = MyPersonDetail
+        fields = (
+            'full_description',
+            'quote',
+            'financial_state'
         )
 
     def __init__(self, *args, **kwargs):

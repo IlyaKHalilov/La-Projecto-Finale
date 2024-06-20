@@ -5,7 +5,7 @@
 
 {% block head %}
 <head>
-  <title>Добавить нового богача</title>
+  <title>Обновить информацию о богаче</title>
 </head>
 {% endblock %}
 
@@ -29,11 +29,11 @@
       <div class="row">
         <div class="col-lg-12">
           <h6>Forbes Remake</h6>
-          <h2>Добавить нового богача</h2>
-          <span><a href="{% url 'index' %}">Home</a> > Create</span>
+          <h2>Обновить информацию о богаче</h2>
+          <span><a href="{% url 'index' %}">Home</a> > Update</span>
           <div class="buttons">
             <div class="border-button">
-              <a href="#add">Добавить</a>
+              <a href="#add">Обновить</a>
             </div>
           </div>
         </div>
@@ -55,25 +55,10 @@
             <div class="row">
               {% csrf_token %}
               <center>
-                <p class="custom-form-p" style="font-size: 25px;">
-                  Краткая информация
-                </p>
                 {{ form1.as_p }}
-              </center>
-              <button class="custom-form-button" type="submit">Добавить</button>
-            </div>
-          </form>
-
-          <form id="contact2" action="." method="post">
-            <div class="row">
-              {% csrf_token %}
-              <center>
-                <p class="custom-form-p" style="font-size: 25px;">
-                  Подробная информация
-                </p>
                 {{ form2.as_p }}
               </center>
-              <button class="custom-form-button" type="submit">Добавить</button>
+              <button class="custom-form-button" type="submit">Обновить</button>
             </div>
           </form>
         </div>
