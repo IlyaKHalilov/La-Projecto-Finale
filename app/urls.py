@@ -1,6 +1,8 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from .views import *
+from django.conf.urls.static import static, serve
+from django.conf import settings
 
 urlpatterns = [
     path('', render_main, name='index'),
@@ -14,4 +16,8 @@ urlpatterns = [
     path('view_applications/', render_applications, name='applications'),
     path('update/<int:pk>/', render_update, name='update'),
     path('delete/<int:pk>/', render_delete, name='delete'),
-]
+] + (static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
+
+urlpatterns += [re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+                re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, }), ]
