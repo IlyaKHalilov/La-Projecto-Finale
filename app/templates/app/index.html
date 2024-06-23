@@ -169,9 +169,9 @@
                   <span>
                     <em>Возраст:</em><br><strong>{{ person.age }}</strong><br>
                     <em>Пол:</em><br><strong>
-                    {% if person.gender == 0 %}
+                    {% if person.gender == 1 %}
                       Не указано
-                    {% elif person.gender == 1 %}
+                    {% elif person.gender == 3 %}
                       Женский
                     {% elif person.gender == 2 %}
                       Мужской

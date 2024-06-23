@@ -184,3 +184,7 @@ def render_delete(request, pk):
     person.delete()
 
     return redirect('index')
+
+
+def custom_500(request):
+    return render(request, 'app/404.html', status=500)
