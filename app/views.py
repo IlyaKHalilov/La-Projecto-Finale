@@ -39,18 +39,17 @@ def render_detail(request, pk):
 def render_application(request):
     if request.method == 'POST':
         form = UserApplicationForm(request.POST)
-
         if form.is_valid():
             form.save()
             return redirect('index')
 
-    else:
-        form = UserApplicationForm
+    user = CustomUser.objects.get(id=request.user.id)
+    initial_data = {'email': user.email if user else ''}
+    form = UserApplicationForm(initial=initial_data)
 
     return render(request, 'app/application.html', {'form': form})
 
 
-@user_passes_test(lambda u: u.is_authenticated, login_url='/login/')
 @user_passes_test(lambda u: u.status == 3 or u.is_admin, login_url='/access_denied/')
 def render_applications(request):
     if request.method == 'POST':
